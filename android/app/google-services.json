@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "171815765221",
+    "project_id": "era3030-app",
+    "storage_bucket": "era3030-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:171815765221:android:c61a48b1aa3d9ffe1ac00c",
+        "android_client_info": {
+          "package_name": "com.fishera.sheeshi.ar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "171815765221-nkq27ki3m9cq8l9cmegl4lfl6i38orij.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjY8t3vbnKauFvIKKdGljOpBWcStcC_Es"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "171815765221-nkq27ki3m9cq8l9cmegl4lfl6i38orij.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

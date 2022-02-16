@@ -1,0 +1,13 @@
+export const primary_color = '#11346a';
+export const light_color = '#5b5ba5';
+export const light_bg = '#d4d4dc';
+export const header = '#2675d4';
+export const sky = '#00bfff';
+export const white = '#ffffff';
+export const black = '#000000';
+export const extra_color0 = '#009900';
+export const extra_color1 = '#eaeaea';
+export const extra_color11 = '#466db3';
+export const extra_color3 = '#020202';
+export const extra_danger = '#ff0000';
+export const notification = '#9cc1ff';
