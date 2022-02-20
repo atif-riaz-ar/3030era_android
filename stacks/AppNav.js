@@ -12,6 +12,7 @@ import Ec3030Menu from "./Ec3030Menu";
 import OpenCart from "../auth_screens/OpenCart";
 import Announcement from "../auth_screens/Announcement";
 import Reports from "../auth_screens/Reports";
+import ShowPDF from "../auth_screens/ShowPDF";
 import Withdrawals from "../auth_screens/Withdrawals";
 import CspList from "../auth_screens/CspList";
 import CspCert from "../auth_screens/CspCert";
@@ -80,6 +81,7 @@ const AppNav = ({}) => {
 			<Nav.Screen name="MakePayment" component={MakePayment}/>
 			<Nav.Screen name="DownloadOrder" component={DownloadOrder}/>
 			<Nav.Screen name="BuyCancel" component={BuyCancel}/>
+			<Nav.Screen name="ShowPDF" component={ShowPDF}/>
 			<Nav.Screen name="My Team" component={MyTeam}/>
 			<Nav.Screen name="Genealogy Tree" component={Genealogy}/>
 			<Nav.Screen name="Change Password" component={ChangePassword}/>

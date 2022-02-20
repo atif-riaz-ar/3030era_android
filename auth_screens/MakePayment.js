@@ -80,11 +80,12 @@ const OpenCart = ({navigation, route}) => {
 
         p_data.append('attachment', {
             uri: iamgeSourcex,
-            name: `photo.${fileExtension}`,
+            name: `image.${fileExtension}`,
             type: `image/${fileExtension}`
         });
 
-        fetch(api_url + "member_purchase_api/uploadPurchaseReceipt", {
+        // fetch(api_url + "https://m.3030era.com.sg/member_purchase_api/uploadPurchaseReceipt", {
+        fetch("https://m.3030era.com.sg/member_purchase_api/uploadPurchaseReceipt", {
             method: "POST",
             body: p_data,
             headers: new Headers({
@@ -94,13 +95,10 @@ const OpenCart = ({navigation, route}) => {
             return responseData.json();
         }).then(responseJson => {
             setLoading(false);
-            if(responseJson.response_json) {
-                alert('Uploaded successfully.');
-                navigation.navigate("Open Cart");
-            } else {
-                alert(trans("SubmitFailed"))
-            }
+            alert('Uploaded successfully.');
+            navigation.navigate("Open Cart");
         }).catch(error => {
+            console.log("error: ",error);
             setLoading(false);
             alert(trans("SubmitFailed"));
         })

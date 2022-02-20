@@ -24,30 +24,9 @@ const OpenCart = ({navigation, route}) => {
     const [render, setRender] = useState(0);
     let [loading, setLoading] = useState(true);
 
-    const isPermitted = async () => {
-        if (Platform.OS === 'android') {
-            try {
-                const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-                    {
-                        title: 'External Storage Write Permission',
-                        message: 'App needs access to Storage data',
-                    },
-                );
-                return granted === PermissionsAndroid.RESULTS.GRANTED;
-            } catch (err) {
-                alert('Write permission err', err);
-                return false;
-            }
-        } else {
-            return true;
-        }
-    };
-
     const createPDF = async (info) => {
-        let perm = await isPermitted();
         setLoading(true);
-        let html = '<table width="675" border="0" cellspacing="1" cellpadding="5">' +
+        let html = '<table width="675" border="0" cellspacing="1" cellpadding="3">' +
             '            <tr>' +
             '                <td colspan="8"><img src="https://m.3030era.com.sg/assets/logo.png" alt="" width="100"><br><br><br></td>' +
             '                <td colspan="8">' +
@@ -134,27 +113,20 @@ const OpenCart = ({navigation, route}) => {
 
         let options = {
             html: html,
-            fileName: info.certificate,
+            fileName: info.invoice_id,
             directory: 'Documents',
-            base64: true,
         }
         let file = await RNHTMLtoPDF.convert(options);
-
-        const path = RNFetchBlob.fs.dirs.DownloadDir + "/"+ info.certificate +".pdf";
-
-        try {
-            RNFetchBlob.fs.writeFile(path, file.base64, 'base64').then(() => {
-                setLoading(false);
-                alert(trans('CheckDownload'));
-            });
-        } catch (error) {
-            setLoading(false);
-            alert(trans('DownloadFailed'));
-        }
+        setLoading(false)
+        navigation.navigate("ShowPDF", {
+            html: html,
+            back: "Open Cart",
+            name: info.invoice_id,
+            path: file.filePath
+        });
     }
 
     const load_data = () => {
-        console.log("here");
         let p_data = new FormData();
         p_data.append("access_token", user.access_token);
         p_data.append("app_id", app_id);

@@ -67,7 +67,28 @@ const MyTeam = ({navigation, route}) => {
                 <View style={{margin: 20, backgroundColor: COLOR.primary_color, borderRadius: 5}}>
                     {list.length == 0 ? <NoData/> : list.map((item, index) => (
                         <TouchableHighlight key={index}>
-                            <TouchableOpacity onPress={() => {navigation.navigate("Team Detail", {level: item.level, members: item.members})}}>
+                            <TouchableOpacity onPress={() => {
+                                setLoading(true);
+                                    let p_data = new FormData();
+                                    p_data.append("access_token", user.access_token);
+                                    p_data.append("app_id", app_id);
+                                    p_data.append("security_key", appVars.sky);
+                                    p_data.append("level", item.level);
+                                    fetch(api_url + "member_profile_api/getMemberDownlineDetails", {
+                                        method: "POST",
+                                        body: p_data,
+                                        headers: new Headers({
+                                            'Content-Type': 'multipart/form-data'
+                                        }),
+                                    }).then((responseData) => {
+                                        return responseData.json();
+                                    }).then(responseJson => {
+                                        navigation.navigate("Team Detail", {level: item.level, members: item.members, list: responseJson})
+                                        setLoading(false);
+                                    }).catch(error => {
+                                        setLoading(false);
+                                    })
+                                }}>
                                 <View style={{flex: 1, flexDirection: 'row', flexWrap: "wrap", paddingHorizontal: 10, paddingVertical: 12, borderBottomWidth: 2, borderColor: 'white'}}>
                                     <Text style={{flex: 0.5, fontSize: 15, color: 'white', alignSelf: "flex-start", width: Dimensions.get('window').width/2 - 70 }}>
                                         {trans('Level')}: {item.level}

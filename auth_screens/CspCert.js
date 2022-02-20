@@ -26,28 +26,7 @@ const CspCert = ({navigation, route}) => {
     const [list, setList] = useState([]);
     let [loading, setLoading] = useState(true);
 
-    const isPermitted = async () => {
-        if (Platform.OS === 'android') {
-            try {
-                const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-                    {
-                        title: 'External Storage Write Permission',
-                        message: 'App needs access to Storage data',
-                    },
-                );
-                return granted === PermissionsAndroid.RESULTS.GRANTED;
-            } catch (err) {
-                alert('Write permission err', err);
-                return false;
-            }
-        } else {
-            return true;
-        }
-    };
-
     const createPDF = async (info) => {
-        let perm = await isPermitted();
         setLoading(true);
         let html = '<style>' +
             '    #data_display td, #data_display th {' +
@@ -62,117 +41,100 @@ const CspCert = ({navigation, route}) => {
             '        border-top: 0 !important;' +
             '        color: black !important;' +
             '    }' +
-            '</style><div class="pdf-content">' +
-            '        <table width="100%" border="0">' +
-            '            <tr>' +
-            '                <td width="120"><img src="https://m.3030era.com.sg/assets/logo.png" alt="" width="100"></td>' +
-            '                <td></td>' +
-            '            </tr>' +
-            '        </table>' +
-            '        <table width="100%" border="0">' +
-            '            <tr><strong>' +
-            '                <center style="color: black !important;">CSP AGREEMENT</center>' +
-            '            </strong></tr>' +
-            '        </table>' +
-            '        <table width="100%" border="0">' +
-            '            <tr>' +
-            '                <td>' +
-            '                    Name: &emsp; <span id="pdf_name">' + info.f_name + " " + info.l_name + '</span><br>' +
-            '                    Username: &emsp; <span id="pdf_un">'+info.username+'</span><br>' +
-            '                    Certificate Number: &emsp; <span id="pdf_cert">'+info.certificate+'</span>' +
-            '                </td>' +
-            '            </tr>' +
-            '        </table>' +
-            '        <table width="100%" border="1">' +
-            '            <tr>' +
-            '                <td>Start Date: <span id="pdf_cdate">'+info.insert_time+'</span></td>' +
-            '                <td>Completion Date: <span id="pdf_edate">'+info.end_date+'</span></td>' +
-            '            </tr>' +
-            '            <tr>' +
-            '                <td>Fish Feed Purchased: <span id="pdf_feed">'+info.total_price+'</span></td>' +
-            '                <td>Purchased Amount: <span id="pdf_amount">'+info.amount+'</span></td>' +
-            '            </tr>' +
-            '        </table>' +
-            '        <table width="100%">' +
-            '            <tr>' +
-            '                <td colspan="2">Owner has read and understood the terms and conditions listed in CSP_AGREEMENT.pdf and entrusts 3030ERA Pte. Ltd. to proceed with 3030ERA Crop Share Program. This certificate is a proof of the Owner’s purchase of the items listed above from 3030ERA Pte Ltd.' +
-            '                </td>' +
-            '            </tr>' +
-            '            <tr>' +
-            '                <td width="40">' +
-            '                    <center>1.</center>' +
-            '                </td>' +
-            '                <td>3030 ERA Pte Ltd is completely responsible for rearing fishes with member purchased fish feed and' +
-            '                    the selling of the fishes through the company network of channels.' +
-            '                </td>' +
-            '            </tr>' +
-            '            <tr>' +
-            '                <td width="40">' +
-            '                    <center>2.</center>' +
-            '                </td>' +
-            '                <td>3030 ERA Pte Ltd will be responsible for the fish upkeep for 180 or 300 days depending on the member' +
-            '                    orders.' +
-            '                </td>' +
-            '            </tr>' +
-            '            <tr>' +
-            '                <td width="40">' +
-            '                    <center>3.</center>' +
-            '                </td>' +
-            '                <td>3030 ERA Pte Ltd will credit the agreed profit to Cash Credit eWallet upon the completion of the' +
-            '                    members Purchase Order.' +
-            '                </td>' +
-            '            </tr>' +
-            '            <tr>' +
-            '                <td width="40">' +
-            '                </td>' +
-            '                <td>This Entrustment Certificate will not be duplicated or replaced in any scenario.</td>' +
-            '            </tr>' +
-            '        </table>' +
-            '        <table width="100%" border="0">' +
-            '            <tr>' +
-            '                <td width="140">' +
-            '                    <img src="https://m.3030era.com.sg/assets/sign.png" alt="" width="120">' +
-            '                    <br>' +
-            '                    Raymond Ng <br>' +
-            '                    Director <br>' +
-            '                    3030 ERA PTE. LTD.' +
-            '                </td>' +
-            '                <td width="140"><img src="https://m.3030era.com.sg/assets/stamp.png" alt="" width="120"></td>' +
-            '                <td></td>' +
-            '            </tr>' +
-            '        </table>' +
-            '        <table width="100%" border="0">' +
-            '            <tr>' +
-            '                <td style="color: slategray"><center>3030 ERA PTE LTD <br>' +
-            '                    Address: 6 Pasir Ris Farmway 1 Singapore 519391  Tel: +65 3159 2371' +
-            '                </center></td>' +
-            '            </tr>' +
-            '        </table>' +
-            '    </div>';
+            '</style>' +
+            '<div class="pdf-content">' +
+            '    <table width="710" border="0">' +
+            '        <tr>' +
+            '            <td width="100"><img src="https://m.3030era.com.sg/assets/logo.png" alt="" width="100"></td>' +
+            '            <td width="610"></td>' +
+            '        </tr>' +
+            '    </table>' +
+            '    <table width="710" border="0">' +
+            '        <tr><strong>' +
+            '            <span style="text-align: center, color: black !important;">CSP AGREEMENT</span>' +
+            '        </strong></tr>' +
+            '    </table>' +
+            '    <table width="710" border="0">' +
+            '        <tr>' +
+            '            <td>' +
+            '                Name: &emsp; <span id="pdf_name">' + info.f_name + " " + info.l_name + '</span><br>' +
+            '                Username: &emsp; <span id="pdf_un">'+info.username+'</span><br>' +
+            '                Certificate Number: &emsp; <span id="pdf_cert">'+info.certificate+'</span>' +
+            '            </td>' +
+            '        </tr>' +
+            '    </table>' +
+            '    <table width="710" border="1">' +
+            '        <tr>' +
+            '            <td>Start Date: <span id="pdf_cdate">'+info.insert_time+'</span></td>' +
+            '            <td>Completion Date: <span id="pdf_edate">'+info.end_date+'</span></td>' +
+            '        </tr>' +
+            '        <tr>' +
+            '            <td>Fish Feed Purchased: <span id="pdf_feed">'+info.total_price+'</span></td>' +
+            '            <td>Purchased Amount: <span id="pdf_amount">'+info.amount+'</span></td>' +
+            '        </tr>' +
+            '    </table>' +
+            '    <table width="710">' +
+            '        <tr>' +
+            '            <td>Owner has read and understood the terms and conditions listed in CSP_AGREEMENT.pdf and entrusts 3030ERA Pte. Ltd. to proceed with 3030ERA Crop Share Program. This certificate is a proof of the Owner’s purchase of the items listed above from 3030ERA Pte Ltd.' +
+            '            </td>' +
+            '        </tr>' +
+            '        <tr>' +
+            '            <td>1. 3030 ERA Pte Ltd is completely responsible for rearing fishes with member purchased fish feed and' +
+            '                the selling of the fishes through the company network of channels.' +
+            '            </td>' +
+            '        </tr>' +
+            '        <tr>' +
+            '            <td>2. 3030 ERA Pte Ltd will be responsible for the fish upkeep for 180 or 300 days depending on the member' +
+            '                orders.' +
+            '            </td>' +
+            '        </tr>' +
+            '        <tr>' +
+            '            <td>3. 3030 ERA Pte Ltd will credit the agreed profit to Cash Credit eWallet upon the completion of the' +
+            '                members Purchase Order.' +
+            '            </td>' +
+            '        </tr>' +
+            '        <tr>' +
+            '            <td>This Entrustment Certificate will not be duplicated or replaced in any scenario.</td>' +
+            '        </tr>' +
+            '    </table>' +
+            '    <table width="710" border="0">' +
+            '        <tr>' +
+            '            <td width="17%">' +
+            '                <img src="https://m.3030era.com.sg/assets/sign.png" alt="" width="120">' +
+            '                <br>' +
+            '                Raymond Ng <br>' +
+            '                Director <br>' +
+            '                3030 ERA PTE. LTD.' +
+            '            </td>' +
+            '            <td width="17%"><img src="https://m.3030era.com.sg/assets/stamp.png" alt="" width="120"></td>' +
+            '            <td></td>' +
+            '        </tr>' +
+            '    </table>' +
+            '    <table width="710" border="0">' +
+            '        <tr>' +
+            '            <td style="text-align: center, color: slategray">3030 ERA PTE LTD <br>' +
+            '                Address: 6 Pasir Ris Farmway 1 Singapore 519391  Tel: +65 3159 2371' +
+            '            </td>' +
+            '        </tr>' +
+            '    </table>' +
+            '</div>';
 
         let options = {
             html: html,
             fileName: info.certificate,
             directory: 'Documents',
-            base64: true,
         }
         let file = await RNHTMLtoPDF.convert(options);
-
-        const path = RNFetchBlob.fs.dirs.DownloadDir + "/"+ info.certificate +".pdf";
-
-        try {
-            RNFetchBlob.fs.writeFile(path, file.base64, 'base64').then(() => {
-                setLoading(false);
-                alert(trans('CheckDownload'));
-            });
-        } catch (error) {
-            setLoading(false);
-            alert(trans('DownloadFailed'));
-        }
+        setLoading(false)
+        navigation.navigate("ShowPDF", {
+            html: html,
+            back: "CSP Cert",
+            name: info.certificate,
+            path: file.filePath
+        });
     }
 
     useEffect(() => {
-        setLoading(true)
         let p_data = new FormData();
         p_data.append("access_token", user.access_token);
         p_data.append("app_id", app_id);
